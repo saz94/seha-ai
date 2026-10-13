@@ -20,12 +20,12 @@ jobs:
         run: bash ci/fetch_fonts.sh
       - name: Build the app
         shell: bash
-        run: ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
+        run: ./gradlew assembleDebug 2>&1 | tee build.log
       - name: Publish the build log to the "ci-logs" branch if the build failed
         if: failure()
         run: |
           mkdir /tmp/log && cd /tmp/log
-          { grep -E "^(e|w): |error:|FAILED|What went wrong" -A3 "$GITHUB_WORKSPACE/build.log" | head -400; echo "-----"; tail -80 "$GITHUB_WORKSPACE/build.log"; } > build.txt || true
+          { grep -E "^(e|w): |error:|FAILED|What went wrong" -A3 "$GITHUB_WORKSPACE/build.log" | head -500; echo "-----"; tail -80 "$GITHUB_WORKSPACE/build.log"; } > build.txt || true
           git init -q -b ci-logs
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
