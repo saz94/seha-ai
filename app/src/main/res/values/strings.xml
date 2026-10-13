@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seha AI</string>
+    <string name="widget_today_name">Today</string>
+    <string name="widget_today_description">Calories, steps, weight and your check-in for today</string>
+    <string name="widget_meal_name">Next meal</string>
+    <string name="widget_meal_description">The next meal on your plan</string>
+</resources>
