@@ -57,7 +57,7 @@ fun CoachTab(vm: AppViewModel, nav: Nav) {
 
     LaunchedEffect(chat.size, vm.chatBusy) { scroll.animateScrollTo(scroll.maxValue) }
 
-    Column(Modifier.fillMaxSize().statusBarsPadding().imePadding()) {
+    Column(Modifier.fillMaxSize().imePadding()) {
         Row(Modifier.padding(start = 20.dp, end = 8.dp, top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
                 Text(tr("Coach", "المدرب"), style = MaterialTheme.typography.headlineSmall)

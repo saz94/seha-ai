@@ -100,7 +100,6 @@ fun SettingsTab(vm: AppViewModel, nav: Nav) {
     Column(
         Modifier
             .fillMaxSize()
-            .statusBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
             .padding(top = 12.dp, bottom = 24.dp),
@@ -118,6 +117,7 @@ fun SettingsTab(vm: AppViewModel, nav: Nav) {
             LinkRow(
                 tr("Medical history", "التاريخ الصحي"),
                 if (data.profile.conditions.isEmpty() && data.profile.allergies.isBlank()) tr("Nothing added", "لم يُضف شيء")
+                else if (data.profile.conditions.isEmpty()) tr("Allergies noted", "الحساسية مسجّلة")
                 else tr("${data.profile.conditions.size} conditions listed", "${data.profile.conditions.size} حالات مذكورة"),
             ) { nav.open("medical") }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)

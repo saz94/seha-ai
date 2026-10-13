@@ -67,7 +67,6 @@ fun ProgressTab(vm: AppViewModel, nav: Nav) {
     Column(
         Modifier
             .fillMaxSize()
-            .statusBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
             .padding(top = 12.dp, bottom = 24.dp),

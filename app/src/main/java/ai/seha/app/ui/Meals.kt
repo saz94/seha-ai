@@ -66,7 +66,6 @@ fun MealsTab(vm: AppViewModel, nav: Nav) {
     Column(
         Modifier
             .fillMaxSize()
-            .statusBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(top = 12.dp, bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
