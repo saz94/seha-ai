@@ -106,8 +106,8 @@ fun WaterScreen(vm: AppViewModel, nav: Nav) {
         Panel {
             Text(
                 tr(
-                    "35 ml for every kilogram you weigh (${data.latestWeight.trim1()} kg), adjusted for how active your days are, plus 400 ml for a hot climate and 12 ml for every minute of today's workout.",
-                    "35 مل لكل كيلوغرام من وزنك (${data.latestWeight.trim1()} كغ)، مع تعديل بحسب نشاطك اليومي، و400 مل للمناخ الحار، و12 مل لكل دقيقة من تمرين اليوم.",
+                    "35 ml for every kilogram you weigh (${data.latestWeight.trim1()} kg), adjusted for how active your days are, plus 400 ml for a hot climate and 10 ml for every minute of today's workout (up to 90).",
+                    "35 مل لكل كيلوغرام من وزنك (${data.latestWeight.trim1()} كغ)، مع تعديل بحسب نشاطك اليومي، و400 مل للمناخ الحار، و10 مل لكل دقيقة من تمرين اليوم (حتى 90 دقيقة).",
                 ),
                 style = MaterialTheme.typography.bodyMedium,
             )

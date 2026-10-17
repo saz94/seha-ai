@@ -131,7 +131,7 @@ fun Orb(modifier: Modifier = Modifier, mood: String = "idle", glow: Boolean = tr
             // the eyes: two soft petals, leaning towards each other
             val look = glance * r * 0.12f
             val eyeY = centre.y - r * 0.08f
-            val gap = r * 0.36f
+            val gap = r * 0.34f
             val open = if (mood == "happy") 0.55f else blink
             eye(Offset(centre.x - gap + look, eyeY), r, open, mirrored = false, smile = mood == "happy", up = mood == "thinking")
             eye(Offset(centre.x + gap + look, eyeY), r, open, mirrored = true, smile = mood == "happy", up = mood == "thinking")
@@ -150,21 +150,23 @@ private fun DrawScope.cloud(centre: Offset, r: Float, spin: Float, phase: Float,
 
 /** One eye: a rounded petal with a soft white glow, squashed vertically when blinking. */
 private fun DrawScope.eye(at: Offset, r: Float, open: Float, mirrored: Boolean, smile: Boolean, up: Boolean) {
-    val w = r * 0.22f
-    val h = r * 0.34f
+    // a teardrop: pointed at the top, round at the bottom
+    val w = r * 0.21f
+    val h = r * 0.40f
     val petal = Path().apply {
         moveTo(0f, -h)
-        cubicTo(w * 0.9f, -h * 0.6f, w * 0.9f, h * 0.5f, 0f, h)
-        cubicTo(-w * 0.9f, h * 0.5f, -w * 0.9f, -h * 0.6f, 0f, -h)
+        cubicTo(w * 0.35f, -h * 0.45f, w * 1.05f, h * 0.05f, w * 0.95f, h * 0.45f)
+        cubicTo(w * 0.85f, h * 0.95f, -w * 0.85f, h * 0.95f, -w * 0.95f, h * 0.45f)
+        cubicTo(-w * 1.05f, h * 0.05f, -w * 0.35f, -h * 0.45f, 0f, -h)
         close()
     }
     // happy eyes squint and lean in a little more
-    val tilt = (if (mirrored) 14f else -14f) * if (smile) 1.6f else 1f
+    val tilt = (if (mirrored) 18f else -18f) * if (smile) 1.5f else 1f
     translate(at.x, at.y + if (up) -r * 0.06f else 0f) {
         rotate(tilt, Offset.Zero) {
             scale(1f, open.coerceAtLeast(0.06f), Offset.Zero) {
                 // glow
-                drawCircle(Brush.radialGradient(listOf(Color(0x80FFFFFF), Color.Transparent), Offset.Zero, h * 1.5f), h * 1.5f, Offset.Zero)
+                drawCircle(Brush.radialGradient(listOf(Color(0x55FFFFFF), Color.Transparent), Offset(0f, h * 0.2f), h * 1.2f), h * 1.2f, Offset(0f, h * 0.2f))
                 drawPath(petal, Color.White)
             }
         }

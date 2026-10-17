@@ -104,7 +104,7 @@ object Calc {
             ActivityLevel.ATHLETE -> 1.25
         }
         if (hotClimate) ml += 400
-        ml += minOf(workoutMinutes, 120) * 12
+        ml += minOf(workoutMinutes, 90) * 10
         return ((ml / 250).roundToInt() * 250).coerceIn(1500, 5000)
     }
 
