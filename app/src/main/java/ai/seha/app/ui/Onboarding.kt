@@ -29,6 +29,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -109,18 +114,27 @@ fun Onboarding(vm: AppViewModel) {
             when (step) {
                 0 -> {
                     Spacer(Modifier.height(24.dp))
-                    val colors = LocalSehaColors.current
-                    TapeGauge(
-                        progress = 0.68f,
-                        track = MaterialTheme.colorScheme.surfaceContainerHighest,
-                        fill = colors.heroEnd,
-                        tick = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.size(170.dp).align(Alignment.CenterHorizontally),
-                    ) {
-                        Text("Seha", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
+                    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        Orb(Modifier.size(260.dp), mood = "happy")
+                        Surface(
+                            shape = RoundedCornerShape(18.dp, 18.dp, 18.dp, 4.dp),
+                            color = MaterialTheme.colorScheme.surface,
+                            shadowElevation = 2.dp,
+                            modifier = Modifier.align(Alignment.TopStart).padding(start = 8.dp, top = 18.dp),
+                        ) {
+                            Text(tr("Hello!", "مرحباً!"), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 18.dp, vertical = 10.dp))
+                        }
                     }
-                    Spacer(Modifier.height(8.dp))
-                    Text(tr("Your body, measured and coached", "جسمك، بالقياس والتدريب"), style = MaterialTheme.typography.headlineMedium)
+                    Text(
+                        buildAnnotatedString {
+                            append(tr("Your ", "مساعدك "))
+                            withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) { append(tr("smart coach", "الذكي")) }
+                            append(tr(" for your body", " لجسمك"))
+                        },
+                        style = MaterialTheme.typography.displaySmall,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                     Text(
                         tr(
                             "Answer a few questions and Seha builds your calorie and protein targets, plans meals you actually want to eat, and checks in with you every day.",
@@ -128,12 +142,15 @@ fun Onboarding(vm: AppViewModel) {
                         ),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
                     )
-                    Heading(tr("Language", "اللغة"))
+                    Heading(tr("Language", "اللغة"), Modifier.align(Alignment.CenterHorizontally))
                     Choice(
                         options = listOf("en" to "English", "ar" to "العربية"),
                         selected = if (Lang.ar) "ar" else "en",
                         onSelect = { Appearance.setLanguage(it) },
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
                     )
                 }
 

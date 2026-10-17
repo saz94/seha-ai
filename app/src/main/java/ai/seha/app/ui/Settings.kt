@@ -127,6 +127,11 @@ fun SettingsTab(vm: AppViewModel, nav: Nav) {
             ) { nav.open("ai") }
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             LinkRow(
+                tr("Water", "الماء"),
+                tr("${vm.waterTarget / 1000.0} L a day", "${vm.waterTarget / 1000.0} ل يومياً") + "  ·  " + if (s.waterReminder) tr("reminders on", "التذكير مفعّل") else tr("reminders off", "التذكير متوقف"),
+            ) { nav.open("water") }
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            LinkRow(
                 "Health Connect",
                 if (s.healthConnect && vm.healthGranted) tr("Connected", "متصل") else tr("Not connected", "غير متصل"),
             ) { nav.open("health") }
@@ -144,7 +149,7 @@ fun SettingsTab(vm: AppViewModel, nav: Nav) {
             s.themeMode, { vm.saveSettings(s.copy(themeMode = it)) },
         )
         Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
-            val names = mapOf("oasis" to tr("Oasis", "واحة"), "dusk" to tr("Dusk", "غسق"), "dune" to tr("Dune", "كثيب"), "rose" to tr("Rose", "ورد"))
+            val names = mapOf("aura" to tr("Aura", "هالة"), "oasis" to tr("Oasis", "واحة"), "dusk" to tr("Dusk", "غسق"), "dune" to tr("Dune", "كثيب"), "rose" to tr("Rose", "ورد"))
             for (palette in Palettes) {
                 val on = palette.id == s.palette
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clip(MaterialTheme.shapes.small).clickable { vm.saveSettings(s.copy(palette = palette.id)) }.padding(4.dp)) {
@@ -201,7 +206,7 @@ fun SettingsTab(vm: AppViewModel, nav: Nav) {
         }
         TextButton(onClick = { confirmErase = true }) { Text(tr("Erase all my data", "مسح كل بياناتي"), color = MaterialTheme.colorScheme.error) }
 
-        Hint(tr("Seha AI gives general fitness and nutrition guidance, not medical advice. Version 1.0", "يقدّم صحة AI إرشاداً عاماً في اللياقة والتغذية وليس نصيحة طبية. الإصدار 1.0"))
+        Hint(tr("Seha AI gives general fitness and nutrition guidance, not medical advice. Version 1.1", "يقدّم صحة AI إرشاداً عاماً في اللياقة والتغذية وليس نصيحة طبية. الإصدار 1.1"))
     }
 
     if (confirmErase) {

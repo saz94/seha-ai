@@ -172,9 +172,15 @@ fun TodayTab(vm: AppViewModel, nav: Nav) {
         // ---- coach tip
         if (checkIn == null || checkIn.coachNote.isBlank()) {
             Panel(onClick = { nav.tab = "coach" }) {
-                Text(tr("From your coach", "من مدربك"), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-                Spacer(Modifier.height(4.dp))
-                Text(if (data.tip.isNotBlank() && vm.hasKey) data.tip else builtInTip(vm), style = MaterialTheme.typography.bodyMedium)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Orb(Modifier.size(84.dp), mood = if (vm.hasKey) "idle" else "happy")
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(tr("From your coach", "من مدربك"), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.height(4.dp))
+                        Text(if (data.tip.isNotBlank() && vm.hasKey) data.tip else builtInTip(vm), style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
             }
         }
 
@@ -198,16 +204,22 @@ fun TodayTab(vm: AppViewModel, nav: Nav) {
                     },
                 )
             }
-            Panel(Modifier.weight(1f)) {
+            Panel(Modifier.weight(1f), onClick = { nav.open("water") }) {
                 val water = data.water[today] ?: 0
-                Hint(tr("Water", "الماء"))
-                Row(verticalAlignment = Alignment.Bottom) {
-                    Text((water / 1000.0).trim1(), style = MaterialTheme.typography.headlineSmall.tabular())
-                    Spacer(Modifier.width(4.dp))
-                    Text("/ ${(t.waterMl / 1000.0).trim1()} " + tr("L", "ل"), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 3.dp))
+                val waterTarget = vm.waterTarget
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Hint(tr("Water", "الماء"))
+                        Row(verticalAlignment = Alignment.Bottom) {
+                            Text((water / 1000.0).trim1(), style = MaterialTheme.typography.headlineSmall.tabular())
+                            Spacer(Modifier.width(4.dp))
+                            Text("/ ${(waterTarget / 1000.0).trim1()} " + tr("L", "ل"), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 3.dp))
+                        }
+                    }
+                    WaterDrop(progress = if (waterTarget > 0) water.toFloat() / waterTarget else 0f, modifier = Modifier.size(34.dp, 40.dp))
                 }
                 Row(
-                    Modifier.clip(CircleShape).clickable { vm.addWater(250) }.padding(vertical = 2.dp),
+                    Modifier.clip(CircleShape).clickable { vm.addWater(data.settings.glassMl) }.padding(vertical = 2.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = null, tint = colors.water, modifier = Modifier.size(16.dp))

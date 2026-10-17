@@ -43,6 +43,7 @@ shot progress en_progress
 adb shell input swipe 540 1900 540 500 400; sleep 2
 adb exec-out screencap -p > "$OUT/en_progress_2.png"
 shot measure en_measure
+shot water en_water
 shot more en_settings
 adb shell input swipe 540 1900 540 500 400; sleep 2
 adb exec-out screencap -p > "$OUT/en_settings_2.png"
@@ -57,6 +58,7 @@ shot meals dark_meals
 shot "meal/$TODAY/m2" dark_recipe
 shot coach dark_coach
 shot progress dark_progress
+shot water dark_water
 adb shell cmd uimode night no
 
 adb shell cmd locale set-app-locales $PKG --locales ar || true
@@ -67,6 +69,7 @@ shot "meal/$TODAY/m2" ar_recipe
 shot coach ar_coach
 shot progress ar_progress
 shot checkin ar_checkin
+shot water ar_water
 adb shell cmd uimode night yes
 shot today ar_dark_today
 adb shell cmd uimode night no

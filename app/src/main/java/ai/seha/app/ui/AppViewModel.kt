@@ -19,7 +19,9 @@ import ai.seha.app.data.Profile
 import ai.seha.app.data.Provider
 import ai.seha.app.data.Settings
 import ai.seha.app.data.Store
+import ai.seha.app.data.WaterEntry
 import ai.seha.app.data.WeightEntry
+import ai.seha.app.notify.WaterWorker
 import ai.seha.app.data.tr
 import ai.seha.app.domain.Calc
 import ai.seha.app.domain.Dates
@@ -83,6 +85,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         ReminderWorker.schedule(app, data.settings.reminderOn && data.profile.onboarded, data.settings.reminderHour)
+        WaterWorker.schedule(app, data.settings.waterReminder && data.profile.onboarded, data.settings.waterEveryHours)
     }
 
     private fun update(change: (AppData) -> AppData) {
@@ -128,6 +131,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (old.reminderOn != settings.reminderOn || old.reminderHour != settings.reminderHour) {
             ReminderWorker.schedule(context, settings.reminderOn, settings.reminderHour)
         }
+        if (old.waterReminder != settings.waterReminder || old.waterEveryHours != settings.waterEveryHours) {
+            WaterWorker.schedule(context, settings.waterReminder, settings.waterEveryHours)
+        }
     }
 
     fun saveKey(provider: Provider, key: String) {
@@ -164,8 +170,33 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun addWater(ml: Int) {
         val today = Dates.today()
-        update { d -> d.copy(water = d.water + (today to ((d.water[today] ?: 0) + ml).coerceAtLeast(0))) }
+        update { d ->
+            d.copy(
+                water = d.water + (today to ((d.water[today] ?: 0) + ml).coerceAtLeast(0)),
+                waterLog = (d.waterLog + WaterEntry(today, System.currentTimeMillis(), ml)).takeLast(2000),
+            )
+        }
     }
+
+    /** Removes the last glass of today. */
+    fun undoWater() {
+        val today = Dates.today()
+        val last = data.waterLog.lastOrNull { it.date == today } ?: return
+        update { d ->
+            d.copy(
+                water = d.water + (today to ((d.water[today] ?: 0) - last.ml).coerceAtLeast(0)),
+                waterLog = d.waterLog - last,
+            )
+        }
+    }
+
+    /** Today's water target, from the body and today's workout. */
+    val waterTarget: Int
+        get() = Calc.waterTarget(
+            data.profile, data.latestWeight,
+            data.checkIn(Dates.today())?.takeIf { it.workedOut }?.workoutMinutes ?: (data.healthOn(Dates.today())?.exerciseMinutes?.toInt() ?: 0),
+            data.settings.hotClimate,
+        )
 
     fun saveMeasurement(m: Measurement) =
         update { d -> d.copy(measurements = (d.measurements.filter { it.date != m.date } + m).sortedBy { it.date }) }

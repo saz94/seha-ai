@@ -59,6 +59,8 @@ fun CoachTab(vm: AppViewModel, nav: Nav) {
 
     Column(Modifier.fillMaxSize().imePadding()) {
         Row(Modifier.padding(start = 20.dp, end = 8.dp, top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Orb(Modifier.size(56.dp), mood = if (vm.chatBusy) "thinking" else "idle", glow = false)
+            Spacer(Modifier.width(10.dp))
             Column(Modifier.weight(1f)) {
                 Text(tr("Coach", "المدرب"), style = MaterialTheme.typography.headlineSmall)
                 Text(
@@ -78,6 +80,7 @@ fun CoachTab(vm: AppViewModel, nav: Nav) {
         ) {
             if (!vm.hasKey) {
                 Panel {
+                    Orb(Modifier.size(150.dp).align(Alignment.CenterHorizontally), mood = "happy")
                     Text(tr("Connect your coach", "اربط مدربك"), style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(4.dp))
                     Hint(tr("The coach runs on GPT, Gemini or Claude with your own key. Add one and it can answer questions, review your week and adjust to your medical history.", "يعمل المدرب عبر GPT أو Gemini أو Claude بمفتاحك الخاص. أضف مفتاحاً ليجيب عن أسئلتك ويراجع أسبوعك ويراعي تاريخك الصحي."))
@@ -85,7 +88,9 @@ fun CoachTab(vm: AppViewModel, nav: Nav) {
                     MainButton(tr("Add an AI key", "أضف مفتاح الذكاء الاصطناعي"), { nav.open("ai") })
                 }
             } else if (chat.isEmpty()) {
-                Hint(tr("Ask anything about training, food or your progress. Try one of these:", "اسأل عن التمرين أو الأكل أو تقدّمك. جرّب أحد هذه:"))
+                Orb(Modifier.size(170.dp).align(Alignment.CenterHorizontally), mood = "happy")
+                Text(tr("Hello! Ask me anything", "مرحباً! اسألني أي شيء"), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.align(Alignment.CenterHorizontally))
+                Hint(tr("About training, food or your progress. Try one of these:", "عن التمرين أو الأكل أو تقدّمك. جرّب أحد هذه:"))
                 val ideas = listOf(
                     tr("What should I train today?", "ماذا أتمرّن اليوم؟"),
                     tr("Review my week and tell me what to change", "راجع أسبوعي وأخبرني ماذا أغيّر"),
@@ -99,7 +104,7 @@ fun CoachTab(vm: AppViewModel, nav: Nav) {
             for (msg in chat) Bubble(msg)
             if (vm.chatBusy) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
+                    Orb(Modifier.size(36.dp), mood = "thinking", glow = false)
                     Spacer(Modifier.width(8.dp))
                     Hint(tr("Thinking…", "يفكّر…"))
                 }
@@ -158,7 +163,11 @@ fun CoachTab(vm: AppViewModel, nav: Nav) {
 @Composable
 private fun Bubble(msg: ChatMsg) {
     val context = LocalContext.current
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = if (msg.fromUser) Arrangement.End else Arrangement.Start) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = if (msg.fromUser) Arrangement.End else Arrangement.Start, verticalAlignment = Alignment.Bottom) {
+        if (!msg.fromUser) {
+            OrbAvatar(Modifier.size(30.dp))
+            Spacer(Modifier.width(6.dp))
+        }
         Column(
             Modifier
                 .widthIn(max = 320.dp)

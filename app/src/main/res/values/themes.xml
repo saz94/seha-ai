@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="window_bg">#F1F4F1</color>
-    <color name="icon_bg">#0B5F57</color>
+    <color name="window_bg">#F2F3FA</color>
+    <color name="icon_bg">#6B6AF5</color>
     <style name="Theme.Seha" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/window_bg</item>
     </style>

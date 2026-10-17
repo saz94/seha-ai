@@ -101,6 +101,7 @@ fun AppRoot(vm: AppViewModel, startRoute: String?) {
                 "meal" -> MealScreen(vm, nav, parts.getOrElse(1) { "" }, parts.getOrElse(2) { "" })
                 "shopping" -> ShoppingScreen(vm, nav)
                 "measure" -> MeasureScreen(vm, nav)
+                "water" -> WaterScreen(vm, nav)
                 "ai" -> AiSettingsScreen(vm, nav)
                 "profile" -> ProfileScreen(vm, nav)
                 "medical" -> MedicalScreen(vm, nav)

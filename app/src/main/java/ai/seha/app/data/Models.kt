@@ -74,6 +74,9 @@ data class Measurement(
 )
 
 @Serializable
+data class WaterEntry(val date: String, val time: Long, val ml: Int)
+
+@Serializable
 data class Photo(val date: String, val file: String)
 
 @Serializable
@@ -116,7 +119,7 @@ data class Settings(
     /** "system", "light" or "dark". */
     val themeMode: String = "system",
     /** oasis, dusk, dune or rose. */
-    val palette: String = "oasis",
+    val palette: String = "aura",
     val provider: Provider = Provider.GEMINI,
     val modelGemini: String = "gemini-3.8-flash",
     val modelOpenAi: String = "gpt-5.5",
@@ -126,6 +129,15 @@ data class Settings(
     val reminderOn: Boolean = true,
     val reminderHour: Int = 21,
     val healthConnect: Boolean = false,
+    // ---- water
+    val glassMl: Int = 250,
+    val waterReminder: Boolean = false,
+    /** Remind every this many hours between the start and end hour. */
+    val waterEveryHours: Int = 2,
+    val waterStartHour: Int = 8,
+    val waterEndHour: Int = 22,
+    /** Adds to the daily water target on hot days. */
+    val hotClimate: Boolean = true,
     /** What the user last asked the meal planner for. */
     val lastWanted: String = "",
     val lastAvoid: String = "",
@@ -149,6 +161,8 @@ data class AppData(
     val chat: List<ChatMsg> = emptyList(),
     /** Millilitres of water per day. */
     val water: Map<String, Int> = emptyMap(),
+    /** Every glass logged, newest last. */
+    val waterLog: List<WaterEntry> = emptyList(),
     val health: List<HealthDay> = emptyList(),
     /** A short coach message for the Today screen, and the day it was written for. */
     val tip: String = "",

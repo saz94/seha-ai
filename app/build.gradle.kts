@@ -14,8 +14,8 @@ android {
         minSdk = 26
         targetSdk = 35
         // Raise versionCode with every release; Android refuses to install a lower one over a higher one.
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
     }
 
     // One fixed signing key kept in the project, so every build installs over the previous one

@@ -20,8 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// The look comes from a tailor's measuring tape and a clinic at first light: one deep accent
-// (sea-teal by default), a saffron for energy, a plum for fat, on cool sage paper.
+// The look: soft lavender paper, white rounded cards, one periwinkle accent, and a glowing
+// gradient orb for the assistant. Saffron marks carbs and energy, pink marks fat.
 
 /** One selectable colour theme: the accent in light and dark, and the two ends of the headline card. */
 class Palette(
@@ -40,6 +40,11 @@ class Palette(
 )
 
 val Palettes = listOf(
+    Palette(
+        "aura", Color(0xFF6B6AF5), Color(0xFFE4E3FF), Color(0xFF1F1D6B),
+        Color(0xFFB4B2FF), Color(0xFF1F1D6B), Color(0xFF3A38A8), Color(0xFFE4E3FF),
+        Color(0xFF5D5BE6), Color(0xFF9A6BF2), Color(0xFF3A38A8), Color(0xFF6B4FC7),
+    ),
     Palette(
         "oasis", Color(0xFF0B7A6E), Color(0xFFCDEDE6), Color(0xFF05312C),
         Color(0xFF62D6C2), Color(0xFF00382F), Color(0xFF0E4D45), Color(0xFFCDEDE6),
@@ -64,7 +69,7 @@ val Palettes = listOf(
 
 fun paletteOf(id: String): Palette = Palettes.firstOrNull { it.id == id } ?: Palettes[0]
 
-private val Ink = Color(0xFF10201E)
+private val Ink = Color(0xFF1C1B2E)
 
 private fun light(p: Palette): ColorScheme = lightColorScheme(
     primary = p.primary,
@@ -83,23 +88,23 @@ private fun light(p: Palette): ColorScheme = lightColorScheme(
     onError = Color.White,
     errorContainer = Color(0xFFFBDDD8),
     onErrorContainer = Color(0xFF5C140C),
-    background = Color(0xFFF1F4F1),
+    background = Color(0xFFF2F3FA),
     onBackground = Ink,
     surface = Color.White,
     onSurface = Ink,
-    surfaceVariant = Color(0xFFE4EAE6),
-    onSurfaceVariant = Color(0xFF55655F),
-    outline = Color(0xFFA9B7B1),
-    outlineVariant = Color(0xFFDAE2DD),
-    surfaceDim = Color(0xFFDAE0DC),
+    surfaceVariant = Color(0xFFE6E7F3),
+    onSurfaceVariant = Color(0xFF686A86),
+    outline = Color(0xFFAFB1C9),
+    outlineVariant = Color(0xFFE1E2EE),
+    surfaceDim = Color(0xFFDCDDEA),
     surfaceBright = Color.White,
     surfaceContainerLowest = Color.White,
-    surfaceContainerLow = Color(0xFFF7F9F7),
+    surfaceContainerLow = Color(0xFFF8F8FD),
     surfaceContainer = Color.White,
-    surfaceContainerHigh = Color(0xFFECF0ED),
-    surfaceContainerHighest = Color(0xFFE4EAE6),
-    inverseSurface = Color(0xFF22332F),
-    inverseOnSurface = Color(0xFFEEF3F0),
+    surfaceContainerHigh = Color(0xFFEDEEF7),
+    surfaceContainerHighest = Color(0xFFE6E7F3),
+    inverseSurface = Color(0xFF2A2945),
+    inverseOnSurface = Color(0xFFF1F1FA),
     inversePrimary = p.darkPrimary,
     scrim = Color.Black,
 )
@@ -121,23 +126,23 @@ private fun dark(p: Palette): ColorScheme = darkColorScheme(
     onError = Color(0xFF5C140C),
     errorContainer = Color(0xFF772318),
     onErrorContainer = Color(0xFFFBDDD8),
-    background = Color(0xFF0A1413),
-    onBackground = Color(0xFFE6EEEA),
-    surface = Color(0xFF121E1C),
-    onSurface = Color(0xFFE6EEEA),
-    surfaceVariant = Color(0xFF1E2C29),
-    onSurfaceVariant = Color(0xFF9DB0A9),
-    outline = Color(0xFF4A5E57),
-    outlineVariant = Color(0xFF233330),
-    surfaceDim = Color(0xFF0A1413),
-    surfaceBright = Color(0xFF283A36),
-    surfaceContainerLowest = Color(0xFF060E0D),
-    surfaceContainerLow = Color(0xFF0E1918),
-    surfaceContainer = Color(0xFF121E1C),
-    surfaceContainerHigh = Color(0xFF192725),
-    surfaceContainerHighest = Color(0xFF1E2C29),
-    inverseSurface = Color(0xFFE6EEEA),
-    inverseOnSurface = Color(0xFF22332F),
+    background = Color(0xFF0F1020),
+    onBackground = Color(0xFFE9E9F5),
+    surface = Color(0xFF191A2E),
+    onSurface = Color(0xFFE9E9F5),
+    surfaceVariant = Color(0xFF24253D),
+    onSurfaceVariant = Color(0xFFA5A7C4),
+    outline = Color(0xFF4E5074),
+    outlineVariant = Color(0xFF2A2B45),
+    surfaceDim = Color(0xFF0F1020),
+    surfaceBright = Color(0xFF31325A),
+    surfaceContainerLowest = Color(0xFF0A0B18),
+    surfaceContainerLow = Color(0xFF13142A),
+    surfaceContainer = Color(0xFF191A2E),
+    surfaceContainerHigh = Color(0xFF1F2038),
+    surfaceContainerHighest = Color(0xFF24253D),
+    inverseSurface = Color(0xFFE9E9F5),
+    inverseOnSurface = Color(0xFF2A2945),
     inversePrimary = p.primary,
     scrim = Color.Black,
 )
@@ -189,11 +194,11 @@ private val AppTypography = Typography().let { base ->
 
 // Radius follows size: the headline card is the roundest thing, small controls the tightest.
 private val AppShapes = Shapes(
-    extraSmall = RoundedCornerShape(8.dp),
-    small = RoundedCornerShape(12.dp),
-    medium = RoundedCornerShape(18.dp),
-    large = RoundedCornerShape(26.dp),
-    extraLarge = RoundedCornerShape(32.dp),
+    extraSmall = RoundedCornerShape(10.dp),
+    small = RoundedCornerShape(16.dp),
+    medium = RoundedCornerShape(22.dp),
+    large = RoundedCornerShape(30.dp),
+    extraLarge = RoundedCornerShape(36.dp),
 )
 
 /** Figures line up when every digit has the same width. */

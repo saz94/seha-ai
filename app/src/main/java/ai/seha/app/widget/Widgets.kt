@@ -138,9 +138,11 @@ private fun TodayContent(context: Context, data: AppData?) {
         }
         Spacer(GlanceModifier.defaultWeight())
         val health = data.healthOn(today)
+        val water = data.water[today] ?: 0
+        val waterTarget = Calc.waterTarget(data.profile, data.latestWeight, data.checkIn(today)?.takeIf { it.workedOut }?.workoutMinutes ?: 0, data.settings.hotClimate)
         Row(GlanceModifier.fillMaxWidth()) {
             Figure(tr("Weight", "الوزن"), data.latestWeight.trim1() + " " + tr("kg", "كغ"), GlanceModifier.defaultWeight())
-            Figure(tr("Protein", "بروتين"), "${t.protein} " + tr("g", "غ"), GlanceModifier.defaultWeight())
+            Figure(tr("Water", "الماء"), "${water / 1000.0} / ${waterTarget / 1000.0} " + tr("L", "ل"), GlanceModifier.defaultWeight())
             if (health != null && health.steps > 0) Figure(tr("Steps", "الخطوات"), "${health.steps}", GlanceModifier.defaultWeight())
             else Figure(tr("Streak", "التتابع"), "${Calc.streak(data)} " + tr("days", "يوم"), GlanceModifier.defaultWeight())
         }

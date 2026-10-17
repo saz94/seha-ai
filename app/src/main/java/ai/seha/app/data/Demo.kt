@@ -70,7 +70,8 @@ object Demo {
                     ),
                 ),
             ),
-            water = mapOf(day(0) to 1750),
+            water = mapOf(day(0) to 1750, day(1) to 2500, day(2) to 2250, day(3) to 3000, day(4) to 1500, day(5) to 2750, day(6) to 2500),
+            waterLog = listOf(500, 250, 250, 500, 250).mapIndexed { i, ml -> WaterEntry(day(0), System.currentTimeMillis() - (5 - i) * 5_400_000L, ml) },
             health = (0..6).map { HealthDay(day(it), steps = 5200L + it * 830, sleepMinutes = 400L + it * 12, activeKcal = 380 + it * 20, exerciseMinutes = 30L + it * 5, restingHr = 61) },
             tip = tr(
                 "You are down 2.2 kg in two weeks, right on pace. Today is a rest day: hit your protein and get 8,000 steps.",

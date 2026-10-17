@@ -86,8 +86,26 @@ object Calc {
         val protein = (base * perKg).roundToInt()
         val fat = (calories * 0.27 / 9).roundToInt()
         val carbs = ((calories - protein * 4 - fat * 9) / 4.0).roundToInt().coerceAtLeast(50)
-        val water = ((weightKg * 35) / 250).roundToInt() * 250
+        val water = waterTarget(p, weightKg, 0, true)
         return Targets(bmr.roundToInt(), maintenance.roundToInt(), calories, protein, carbs, fat, water.coerceIn(1500, 4500), floored, kidney)
+    }
+
+    /**
+     * Daily water from the body: 35 ml per kg, more for a heavy day of activity, more in a hot
+     * climate, and extra for every workout minute logged today. Rounded to a quarter litre.
+     */
+    fun waterTarget(p: Profile, weightKg: Double, workoutMinutes: Int, hotClimate: Boolean): Int {
+        var ml = weightKg * 35
+        ml *= when (p.activity) {
+            ActivityLevel.SEDENTARY -> 0.95
+            ActivityLevel.LIGHT -> 1.0
+            ActivityLevel.MODERATE -> 1.08
+            ActivityLevel.ACTIVE -> 1.15
+            ActivityLevel.ATHLETE -> 1.25
+        }
+        if (hotClimate) ml += 400
+        ml += minOf(workoutMinutes, 120) * 12
+        return ((ml / 250).roundToInt() * 250).coerceIn(1500, 5000)
     }
 
     /** Weeks left to the target weight at the chosen pace, or null when there is no weight goal. */
