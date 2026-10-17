@@ -132,7 +132,7 @@ fun Orb(modifier: Modifier = Modifier, mood: String = "idle", glow: Boolean = tr
             val look = glance * r * 0.12f
             val eyeY = centre.y - r * 0.08f
             val gap = r * 0.34f
-            val open = if (mood == "happy") 0.55f else blink
+            val open = if (mood == "happy") 0.72f * blink else blink
             eye(Offset(centre.x - gap + look, eyeY), r, open, mirrored = false, smile = mood == "happy", up = mood == "thinking")
             eye(Offset(centre.x + gap + look, eyeY), r, open, mirrored = true, smile = mood == "happy", up = mood == "thinking")
         }
@@ -155,13 +155,12 @@ private fun DrawScope.eye(at: Offset, r: Float, open: Float, mirrored: Boolean, 
     val h = r * 0.40f
     val petal = Path().apply {
         moveTo(0f, -h)
-        cubicTo(w * 0.35f, -h * 0.45f, w * 1.05f, h * 0.05f, w * 0.95f, h * 0.45f)
+        cubicTo(w * 0.7f, -h * 0.75f, w * 1.05f, h * 0.05f, w * 0.95f, h * 0.45f)
         cubicTo(w * 0.85f, h * 0.95f, -w * 0.85f, h * 0.95f, -w * 0.95f, h * 0.45f)
-        cubicTo(-w * 1.05f, h * 0.05f, -w * 0.35f, -h * 0.45f, 0f, -h)
+        cubicTo(-w * 1.05f, h * 0.05f, -w * 0.7f, -h * 0.75f, 0f, -h)
         close()
     }
-    // happy eyes squint and lean in a little more
-    val tilt = (if (mirrored) 18f else -18f) * if (smile) 1.5f else 1f
+    val tilt = if (mirrored) 8f else -8f
     translate(at.x, at.y + if (up) -r * 0.06f else 0f) {
         rotate(tilt, Offset.Zero) {
             scale(1f, open.coerceAtLeast(0.06f), Offset.Zero) {
